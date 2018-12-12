@@ -2,11 +2,18 @@
 #include "lp.h"
 #include <math.h>
 #include "readCSVFile.h"
-
+#include <math.h>
 #include <stdlib.h>
 
+#define FALL_DATA
+//#define BLE_DATA
+#ifdef BLE_DATA
 #include "data_v5.h"
+#endif 
 
+#ifdef FALL_DATA
+#include "fall_v1.h"
+#endif
 //const float filter[8] = {0.0779,0.1124,0.1587,0.1867,0.1867,0.1587,0.1124,0.0779};
 const float filter[8] = { 0.0779,0.1124,0.1587,0.1867,0.1867,0.1587,0.1124,0.0779};
 static long sample_counter=0;
@@ -38,6 +45,8 @@ static float data_abs(float value)
 	return value > 0 ? value : -value;
 }
 
+
+#ifdef BLE_DATA
 static void data_v2(FILE *file)
 {
 	init_step_env();
@@ -54,10 +63,39 @@ static void data_v2(FILE *file)
 	print_result();
 	getchar();
 }
+#endif
+
+
+#ifdef FALL_DATA
+static fall_data_v1()
+{
+	init_fall_env();
+	printf("giNumRow=%d\n", giNumRow);
+	int i = 0;
+	for (i = 0; i < giNumRow; i++) {
+		//for (i = 2200; i < 3000; i++) {
+		float x,y,z,xyz;
+		x = giCsvData[i*giNumCol + 1];
+		y= giCsvData[i*giNumCol + 2];
+		z=giCsvData[i*giNumCol + 3];
+		//printf("x=%f,y=%f,z=%f\n", x, y, z);
+		xyz = (float)sqrt(x*x + y*y + z*z);
+		detect_new_fall_v1(samples_filter(giCsvData[i*giNumCol + 2], 0), samples_filter(xyz, 1)-9.8, i);
+		
+		sample_counter++;
+	}
+		print_fall_result();
+	getchar();
+}
+
+#endif
 
 FILE *file;
+
 int main(int argc, char **argv)
 {
+
+ #ifdef BLE_DATA
 	//char *filename = "e:/python-project/test/num/ao_031602.txt";
 	//char *filename = "e:/python-project/test/num/ag_0304_jump.txt";
 	char *filename = "d:/wzb/project/python-project/test/num/ao_0410_01_3.txt";
@@ -68,6 +106,14 @@ int main(int argc, char **argv)
 	FreeCsvData();                   
 
 	fclose(file);
+#endif
+
+#ifdef FALL_DATA
+	char *filename = "d:/wzb/project/python-project/py_work/num/testdata/1212jiade001.txt";
+	ReadCsvData(filename);
+	fall_data_v1();
+	FreeCsvData();
+#endif
 	getchar();
 	return 0;
 }

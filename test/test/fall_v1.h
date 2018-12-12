@@ -7,56 +7,89 @@
 #define DATA_ABS(x) ((x)>0? (x):(-x))
 //xyz2 means |xyz|
 
-#define LINE_TO_TIME_MS (20.0f)
+#define LINE_TO_TIME_MS(x) (20.0f*x)
 typedef unsigned char uint8_t;
 
 typedef enum {
 	ACC_PEAK_XYZ=0x0,
 	ACC_PEAK_XYZ2=0x1,
+	ACC_PEAK_Y=0x2,
+	ACC_PEAK_Y2=0x3,
 }detect_peak_acc_mode_t;
 
 typedef struct {
 	float acc_xyz_old;
 	float acc_xyz2_old;
+	float acc_y_old;
+	float acc_y2_old;
 }acc_value_mode_t;
 
 typedef struct {
-	uint8_t acc_xyz;
-	uint8_t acc_xyz2;
+	int acc_xyz;
+	int acc_xyz2;
+	int acc_y;
+	int acc_y2;
 
 }last_status_is_up_t;
 
 typedef struct {
-	uint8_t acc_xyz;
-	uint8_t acc_xyz2;
+	int acc_xyz;
+	int acc_xyz2;
+	int acc_y;
+	int acc_y2;
 
 }direction_is_up_t;
 
 typedef struct {
 	int acc_xyz;
 	int acc_xyz2;
+	int acc_y;
+	int acc_y2;
 } continue_up_count_t;
 
 typedef struct {
 	int acc_xyz;
 	int acc_xyz2;
+	int acc_y;
+	int acc_y2;
 } continue_up_former_count_t;
 
 typedef struct{
 	float acc_xyz;
 	float acc_xyz2;
+	float acc_y;
+	float acc_y2;
 
 } peak_wave_t;
 
 typedef struct {
 	float acc_xyz;
 	float acc_xyz2;
+	float acc_y;
+	float acc_y2;
 }valley_wave_t;
 
 typedef struct {
 	uint8_t rel;
 	long time;
 }last_fall_t;
+
+typedef struct {
+	uint8_t xyz_flag;
+	uint8_t y_flag;
+	uint8_t rel;
+	long time;
+	float xyz_neg_peak_value;
+	long xyz_neg_peak_time;
+	float xyz_1_peak_value;
+	long xyz_1_peak_time;
+	float xyz_2_peak_value;
+	long xyz_2_peak_time;
+	float y_fir_peak_value;
+	long y_fir_peak_time;
+	float y_sec_peak_value;
+	long y_sec_peak_time;
+}temp_fall_t;
 
 typedef struct {
 	uint8_t flag;
@@ -81,14 +114,16 @@ typedef struct {
 	long time_of_now;
 
 	last_fall_t last_fall;
+	temp_fall_t temp_fall;
 
+	int test_fall_count;
 }fall_env_t;
 
 
 fall_env_t fall_env;
 void init_fall_env();
-void detect_new_fall_v1(float acc_xyz,int line);
-
+void detect_new_fall_v1(float acc_y,float acc_xyz,int line);
+void print_fall_result();
 
 
 
