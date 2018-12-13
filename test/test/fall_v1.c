@@ -56,7 +56,7 @@ static int detect_peak(float new_value, float old_value)
 			fall_env.direction_is_up.acc_y2 = 0;
 		}
 		//printf("wzb detect peak y old v=%f,new v=%f\r\n",old_value,new_value);
-		if ((fall_env.direction_is_up.acc_y2 == 0) && (fall_env.last_status_is_up.acc_y2 == 1) && (fall_env.continue_up_former_count.acc_y2 >= 1/*2*/ && (old_value >= fall_env.min_acc_value))) {
+		if ((fall_env.direction_is_up.acc_y2 == 0) && (fall_env.last_status_is_up.acc_y2 == 1) && (fall_env.continue_up_former_count.acc_y2 >= 1/*2*/ && (old_value >= fall_env.min_acc_value)) && (old_value <= fall_env.max_acc_value)) {
 			fall_env.peak_wave.acc_y2 = old_value;
 			 //printf("wzb detect peak y 11\r\n");
 			return 1;
@@ -88,7 +88,7 @@ void detect_new_fall_v1(float acc_y,float acc_xyz, int line)
 	else {
 		fall_env.detect_peak_mode = ACC_PEAK_Y2;
 		fall_env.min_acc_value = 3.0f;
-
+		fall_env.max_acc_value = 20.0f;
 		if (detect_peak(acc_y2, fall_env.acc_value_mode.acc_y2_old)) {
 			//printf("fall_env.last_fall.time=%ld\n", fall_env.last_fall.time);
 			//printf("now-last=%ld\n", fall_env.time_of_now-fall_env.last_fall.time);
@@ -144,7 +144,7 @@ void detect_new_fall_v1(float acc_y,float acc_xyz, int line)
 	else {
 		fall_env.detect_peak_mode = ACC_PEAK_XYZ2;
 		fall_env.min_acc_value = 1.0f;
-
+		fall_env.max_acc_value = 50.0f;
 		if (detect_peak(acc_xyz2, fall_env.acc_value_mode.acc_xyz2_old)) {
 			printf("detect_peak xyz line=%d,xyz flag=%d,value=%f\n", line,fall_env.temp_fall.xyz_flag,fall_env.acc_value_mode.acc_xyz_old);
 			if (fall_env.time_of_now - fall_env.last_fall.time > 3000) {
@@ -165,7 +165,7 @@ void detect_new_fall_v1(float acc_y,float acc_xyz, int line)
 						printf("reset_temp_xyz_flag,line=%d\n", line);
 					}
 					else {
-						if (fall_env.acc_value_mode.acc_xyz_old > 5) {
+						if (fall_env.acc_value_mode.acc_xyz_old > 5  && fall_env.acc_value_mode.acc_xyz_old<20) {
 							fall_env.temp_fall.xyz_flag = 2;
 							printf("xyz_flag=2,line=%d\n", line);
 							fall_env.temp_fall.xyz_1_peak_time = fall_env.time_of_now;
@@ -180,7 +180,7 @@ void detect_new_fall_v1(float acc_y,float acc_xyz, int line)
 						printf("reset_temp_xyz_flag 222 ,line=%d\n", line);
 					}
 					else {
-						if (fall_env.acc_value_mode.acc_xyz_old > 5) {
+						if (fall_env.acc_value_mode.acc_xyz_old > 5 && fall_env.acc_value_mode.acc_xyz_old<20) {
 							fall_env.temp_fall.xyz_flag = 3;
 							printf("xyz_flag=3,line=%d\n", line);
 							fall_env.temp_fall.xyz_2_peak_time = fall_env.time_of_now;

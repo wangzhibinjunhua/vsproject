@@ -109,7 +109,7 @@ int main(int argc, char **argv)
 #endif
 
 #ifdef FALL_DATA
-	char *filename = "d:/wzb/project/python-project/py_work/num/testdata/1212jiade001.txt";
+	char *filename = "d:/wzb/project/python-project/py_work/num/testdata/aaduoci002.txt";
 	ReadCsvData(filename);
 	fall_data_v1();
 	FreeCsvData();
