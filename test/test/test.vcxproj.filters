@@ -42,6 +42,9 @@
     <ClCompile Include="fall_v1.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="fall_v2.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lp.h">
@@ -63,6 +66,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="fall_v1.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="fall_v2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="config.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

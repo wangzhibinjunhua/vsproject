@@ -4,15 +4,19 @@
 #include "readCSVFile.h"
 #include <math.h>
 #include <stdlib.h>
-
-#define FALL_DATA
+#include "config.h"
+//#define FALL_V1
 //#define BLE_DATA
 #ifdef BLE_DATA
 #include "data_v5.h"
 #endif 
 
-#ifdef FALL_DATA
+#ifdef FALL_V1
 #include "fall_v1.h"
+#endif
+
+#ifdef FALL_V2
+#include "fall_v2.h"
 #endif
 //const float filter[8] = {0.0779,0.1124,0.1587,0.1867,0.1867,0.1587,0.1124,0.0779};
 const float filter[8] = { 0.0779,0.1124,0.1587,0.1867,0.1867,0.1587,0.1124,0.0779};
@@ -66,7 +70,7 @@ static void data_v2(FILE *file)
 #endif
 
 
-#ifdef FALL_DATA
+#ifdef FALL_V1
 static fall_data_v1()
 {
 	init_fall_env();
@@ -90,6 +94,30 @@ static fall_data_v1()
 
 #endif
 
+#ifdef FALL_V2
+static fall_data_v2()
+{
+	init_fall_env();
+	printf("giNumRow=%d\n", giNumRow);
+	int i = 0;
+	for (i = 0; i < giNumRow; i++) {
+		//for (i = 3269; i < 3900; i++) {
+		float x, y, z, xyz;
+		x = giCsvData[i*giNumCol + 1];
+		y = giCsvData[i*giNumCol + 2];
+		z = giCsvData[i*giNumCol + 3];
+		//printf("x=%f,y=%f,z=%f\n", x, y, z);
+		xyz = (float)sqrt(x*x + y*y + z*z);
+		detect_new_fall_v2(samples_filter(giCsvData[i*giNumCol + 2], 0), samples_filter(xyz, 1) - 9.8, i);
+
+		sample_counter++;
+	}
+	print_fall_result();
+	getchar();
+}
+
+#endif
+
 FILE *file;
 
 int main(int argc, char **argv)
@@ -108,12 +136,33 @@ int main(int argc, char **argv)
 	fclose(file);
 #endif
 
-#ifdef FALL_DATA
-	char *filename = "d:/wzb/project/python-project/py_work/num/testdata/aaduoci002.txt";
+
+#ifdef FALL_V1
+
+	
+	//char *filename = "d:/wzb/project/python-project/py_work/num/testdata/2018-12-13-05-39-35testwb6ci.txt";
+	char *filename = "d:/wzb/project/python-project/py_work/num/testdata/2018-12-13-05-45-20testwzb5ci.txt";
+	//char *filename = "d:/wzb/project/python-project/py_work/num/testdata/aaduoci002.txt";
 	ReadCsvData(filename);
 	fall_data_v1();
 	FreeCsvData();
 #endif
+#ifdef FALL_V2
+
+
+	//char *filename = "d:/wzb/project/python-project/py_work/num/testdata/2018-12-13-05-39-35testwb6ci.txt";
+	//char *filename = "d:/wzb/project/python-project/py_work/num/testdata/2018-12-13-05-45-20testwzb5ci.txt";
+	//char *filename = "d:/wzb/project/python-project/py_work/num/testdata/aaduoci002.txt";
+	//char *filename = "d:/wzb/project/python-project/py_work/num/testdata/2018-12-13-05-47-53testwzbjiade.txt";
+	char *filename = "d:/wzb/project/python-project/py_work/num/testdata/2018-12-13-02-55-17test.txt";
+	//char *filename = "d:/wzb/project/python-project/py_work/num/testdata/aaajiade003.txt";
+	ReadCsvData(filename);
+	fall_data_v2();
+	FreeCsvData();
+
+#endif
+
+
 	getchar();
 	return 0;
 }

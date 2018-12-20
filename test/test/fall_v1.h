@@ -1,3 +1,5 @@
+#include "config.h"
+#ifdef FALL_V1
 #pragma once
 //=================================
 //author wangzhibin_x@foxmail.com
@@ -74,6 +76,7 @@ typedef struct {
 	long time;
 }last_fall_t;
 
+
 typedef struct {
 	uint8_t xyz_flag;
 	uint8_t y_flag;
@@ -125,5 +128,5 @@ void init_fall_env();
 void detect_new_fall_v1(float acc_y,float acc_xyz,int line);
 void print_fall_result();
 
-
+#endif
 

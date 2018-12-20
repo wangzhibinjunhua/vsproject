@@ -33,16 +33,19 @@
     <ClCompile Include="data_v4.c" />
     <ClCompile Include="data_v5.c" />
     <ClCompile Include="fall_v1.c" />
+    <ClCompile Include="fall_v2.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="readCSVFile.c" />
     <ClCompile Include="uart.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="config.h" />
     <ClInclude Include="data_v2.h" />
     <ClInclude Include="data_v3.h" />
     <ClInclude Include="data_v4.h" />
     <ClInclude Include="data_v5.h" />
     <ClInclude Include="fall_v1.h" />
+    <ClInclude Include="fall_v2.h" />
     <ClInclude Include="lp.h" />
     <ClInclude Include="readCSVFile.h" />
   </ItemGroup>

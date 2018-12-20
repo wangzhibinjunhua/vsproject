@@ -1,3 +1,5 @@
+#include "config.h"
+#ifdef FALL_V1
 //=================================
 //author wangzhibin_x@foxmail.com
 //time 2018-12-06
@@ -149,6 +151,7 @@ void detect_new_fall_v1(float acc_y,float acc_xyz, int line)
 			printf("detect_peak xyz line=%d,xyz flag=%d,value=%f\n", line,fall_env.temp_fall.xyz_flag,fall_env.acc_value_mode.acc_xyz_old);
 			if (fall_env.time_of_now - fall_env.last_fall.time > 3000) {
 				if (fall_env.acc_value_mode.acc_xyz_old < -1) {
+
 					reset_temp_xyz_flag();
 				}
 				if (fall_env.temp_fall.xyz_flag == 0) {
@@ -160,7 +163,7 @@ void detect_new_fall_v1(float acc_y,float acc_xyz, int line)
 					}
 				}
 				else if (fall_env.temp_fall.xyz_flag == 1) {
-					if (fall_env.time_of_now - fall_env.temp_fall.xyz_neg_peak_time > 1000) {
+					if (fall_env.time_of_now - fall_env.temp_fall.xyz_neg_peak_time > 1500) {
 						reset_temp_xyz_flag();
 						printf("reset_temp_xyz_flag,line=%d\n", line);
 					}
@@ -175,12 +178,12 @@ void detect_new_fall_v1(float acc_y,float acc_xyz, int line)
 
 				}
 				else if (fall_env.temp_fall.xyz_flag == 2) {
-					if (fall_env.time_of_now - fall_env.temp_fall.xyz_neg_peak_time > 1200) {
+					if (fall_env.time_of_now - fall_env.temp_fall.xyz_neg_peak_time > 2000) {
 						reset_temp_xyz_flag();
 						printf("reset_temp_xyz_flag 222 ,line=%d\n", line);
 					}
 					else {
-						if (fall_env.acc_value_mode.acc_xyz_old > 5 && fall_env.acc_value_mode.acc_xyz_old<20) {
+						if (data_abs(fall_env.acc_value_mode.acc_xyz_old) > 5 && fall_env.acc_value_mode.acc_xyz_old<20) {
 							fall_env.temp_fall.xyz_flag = 3;
 							printf("xyz_flag=3,line=%d\n", line);
 							fall_env.temp_fall.xyz_2_peak_time = fall_env.time_of_now;
@@ -240,3 +243,4 @@ void print_fall_result()
 	printf("fall count=%d\n", fall_env.test_fall_count);
 	printf("============================\n");
 }
+#endif
