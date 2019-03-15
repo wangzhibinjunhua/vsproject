@@ -10,7 +10,7 @@
 #define DATA_ABS(x) ((x)>0? (x):(-x))
 //xyz2 means |xyz|
 
-#define LINE_TO_TIME_MS(x) (20.0f*x)
+#define LINE_TO_TIME_MS(x) (20*x)
 typedef unsigned char uint8_t;
 
 typedef enum {

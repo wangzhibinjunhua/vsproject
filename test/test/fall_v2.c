@@ -79,6 +79,7 @@ static int detect_peak(float new_value, float old_value)
 		}
 
 	}
+	return 0;
 
 }
 
@@ -231,7 +232,7 @@ void detect_new_fall_v2(float acc_y, float acc_xyz, int line)
 		if (fall_env.time_of_now - fall_env.temp_fall.time < 500) {
 			fall_env.xyz_zero_num = 0;
 		}
-		if (fall_env.time_of_now - fall_env.temp_fall.time > 500) {
+		if (fall_env.time_of_now - fall_env.temp_fall.time > 400) {
 			printf("temp y_flag=2,temp xyz_flag=3,xyz_zero_num=%d,line=%d\n", fall_env.xyz_zero_num, line);
 			if (acc_xyz2 < 1.0) {
 				fall_env.xyz_zero_num++;
@@ -241,7 +242,7 @@ void detect_new_fall_v2(float acc_y, float acc_xyz, int line)
 #if 1
 			if (acc_xyz2 > 2.9) fall_env.xyz_zero_num--;
 #endif
-			if (fall_env.xyz_zero_num > 25) {
+			if (fall_env.xyz_zero_num > 20) {
 				printf("#####################################\n");
 				printf("###########FALL FALL FALL ##############\n");
 				fall_env.test_fall_count++;

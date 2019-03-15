@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>SN_Writer</ProjectName>
+    <ProjectGuid>{F60BB342-E756-4D97-A3F8-49347225D770}</ProjectGuid>
+    <RootNamespace>SN_Writer</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)temp\$(Projectname)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)temp\$(Projectname)\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)temp\$(Projectname)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)temp\$(Projectname)\$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)SNbase\inc;$(ProjectDir)Execute;$(ProjectDir)Extra\CBtnST;$(ProjectDir)Form\About;$(ProjectDir)Form\AutoGen;$(ProjectDir)Form\ScanData;$(ProjectDir)Form\Identify;$(ProjectDir)Form\FileSel;$(ProjectDir)Form\SystemConfig;$(ProjectDir)MtkLib\AT_cmd\inc;$(ProjectDir)CBtnST;$(ProjectDir)MtkLib\Brom\inc;$(ProjectDir)MtkLib\DebugTrace\inc;$(ProjectDir)MtkLib\SNFstream\inc;$(ProjectDir)Common;$(ProjectDir)MtkLib\Eboot\inc;$(ProjectDir)MtkLib\Meta\inc;$(ProjectDir)MtkLib\Security\inc;$(ProjectDir)MtkLib\USBSwitchTool\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;__META_LTE__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>shlwapi.lib;./mtklib/meta/lib/*.lib;./mtklib/Eboot/lib/*.lib;./mtklib/Security/lib/*.lib;./mtklib/SNFstream/lib/*.lib;./mtklib/DebugTrace/lib/*.lib;./mtklib/usbswitchtool/lib/*.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)Output\$(ProjectName)_d.exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)SNbase\inc;$(ProjectDir)Execute;$(ProjectDir)Extra\CBtnST;$(ProjectDir)Form\About;$(ProjectDir)Form\AutoGen;$(ProjectDir)Form\ScanData;$(ProjectDir)Form\Identify;$(ProjectDir)Form\FileSel;$(ProjectDir)Form\SystemConfig;$(ProjectDir)MtkLib\AT_cmd\inc;$(ProjectDir)CBtnST;$(ProjectDir)MtkLib\Brom\inc;$(ProjectDir)MtkLib\DebugTrace\inc;$(ProjectDir)MtkLib\SNFstream\inc;$(ProjectDir)Common;$(ProjectDir)MtkLib\Eboot\inc;$(ProjectDir)MtkLib\Meta\inc;$(ProjectDir)MtkLib\Security\inc;$(ProjectDir)MtkLib\USBSwitchTool\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;__META_LTE__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>shlwapi.lib;./mtklib/meta/lib/*.lib;./mtklib/Eboot/lib/*.lib;./mtklib/Security/lib/*.lib;./mtklib/SNFstream/lib/*.lib;./mtklib/DebugTrace/lib/*.lib;./mtklib/usbswitchtool/lib/*.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)Output\$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Common\Common.cpp" />
+    <ClCompile Include="Encryption.cpp" />
+    <ClCompile Include="Execute\SNbase.cpp" />
+    <ClCompile Include="Execute\SPexc.cpp" />
+    <ClCompile Include="Extra\CBtnST\BtnST.cpp" />
+    <ClCompile Include="Extra\CBtnST\CeXDib.cpp" />
+    <ClCompile Include="Extra\CBtnST\ShadeButtonST.cpp" />
+    <ClCompile Include="Form\About\AboutSNDlg.cpp" />
+    <ClCompile Include="Form\AutoGen\autogendlg.cpp" />
+    <ClCompile Include="Form\FileSel\FileSelDlg.cpp" />
+    <ClCompile Include="Form\Identify\ChgPasswdDlg.cpp" />
+    <ClCompile Include="Form\Identify\VerifyPasswdDlg.cpp" />
+    <ClCompile Include="Form\ScanData\ScanData.cpp" />
+    <ClCompile Include="Form\SystemConfig\SystemConfig.cpp" />
+    <ClCompile Include="MtkLib\AT_cmd\src\AtProcess.cpp" />
+    <ClCompile Include="MtkLib\AT_cmd\src\rs232Module.cpp" />
+    <ClCompile Include="MtkLib\DebugTrace\src\xboot_debug.cpp" />
+    <ClCompile Include="MtkLib\Security\src\AUTH.cpp" />
+    <ClCompile Include="MtkLib\Security\src\SCERT.cpp" />
+    <ClCompile Include="SN Writer.cpp" />
+    <ClCompile Include="SN WriterDlg.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Common\Common.h" />
+    <ClInclude Include="Encryption.h" />
+    <ClInclude Include="Execute\SNbase.h" />
+    <ClInclude Include="Execute\SPexc.h" />
+    <ClInclude Include="Extra\CBtnST\BtnST.h" />
+    <ClInclude Include="Extra\CBtnST\CeXDib.h" />
+    <ClInclude Include="Extra\CBtnST\ShadeButtonST.h" />
+    <ClInclude Include="Form\About\AboutSNDlg.h" />
+    <ClInclude Include="Form\AutoGen\autogendlg.h" />
+    <ClInclude Include="Form\FileSel\FileSelDlg.h" />
+    <ClInclude Include="Form\Identify\ChgPasswdDlg.h" />
+    <ClInclude Include="Form\Identify\VerifyPasswdDlg.h" />
+    <ClInclude Include="Form\ScanData\ScanData.h" />
+    <ClInclude Include="Form\SystemConfig\SystemConfig.h" />
+    <ClInclude Include="MtkLib\AT_cmd\inc\AtProcess.h" />
+    <ClInclude Include="MtkLib\AT_cmd\inc\rs232Module.h" />
+    <ClInclude Include="MtkLib\DebugTrace\inc\Mdebug.h" />
+    <ClInclude Include="MtkLib\DebugTrace\inc\xboot_debug.h" />
+    <ClInclude Include="MtkLib\Meta\inc\C2kAgent_api.h" />
+    <ClInclude Include="MtkLib\Meta\inc\C2kAgent_api_datatype.h" />
+    <ClInclude Include="MtkLib\Meta\inc\FtaAgent_api.h" />
+    <ClInclude Include="MtkLib\Meta\inc\HdcpEncryption.h" />
+    <ClInclude Include="MtkLib\Meta\inc\meta.h" />
+    <ClInclude Include="MtkLib\Meta\inc\meta_boot_def.h" />
+    <ClInclude Include="MtkLib\Meta\inc\meta_dll_audio.h" />
+    <ClInclude Include="MtkLib\Meta\inc\meta_dll_connectivity.h" />
+    <ClInclude Include="MtkLib\Meta\inc\meta_dll_gps.h" />
+    <ClInclude Include="MtkLib\Meta\inc\meta_dll_mm.h" />
+    <ClInclude Include="MtkLib\Meta\inc\meta_dll_nfc.h" />
+    <ClInclude Include="MtkLib\Meta\inc\mtk_mcu.h" />
+    <ClInclude Include="MtkLib\Meta\inc\SLA_Challenge.h" />
+    <ClInclude Include="MtkLib\Meta\inc\sp_brom.h" />
+    <ClInclude Include="MtkLib\Meta\inc\sp_conn_para.h" />
+    <ClInclude Include="MtkLib\Meta\inc\sp_md_info.h" />
+    <ClInclude Include="MtkLib\Meta\inc\xboot.h" />
+    <ClInclude Include="MtkLib\Security\inc\AUTH.h" />
+    <ClInclude Include="MtkLib\Security\inc\des.h" />
+    <ClInclude Include="MtkLib\Security\inc\SCERT.h" />
+    <ClInclude Include="MtkLib\SNFstream\inc\AutoGen.h" />
+    <ClInclude Include="MtkLib\SNFstream\inc\SNFstream.h" />
+    <ClInclude Include="MtkLib\USBSwitchTool\inc\USBSwitchDLLibrary.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="SN Writer.h" />
+    <ClInclude Include="SN WriterDlg.h" />
+    <ClInclude Include="StdAfx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\FAIL.bmp" />
+    <Image Include="res\PASS.bmp" />
+    <Image Include="res\SN Writer.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SN Writer.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="SN Writer.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
