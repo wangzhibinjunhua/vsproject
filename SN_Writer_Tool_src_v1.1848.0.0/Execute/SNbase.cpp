@@ -814,6 +814,8 @@ META_RESULT SNBase::REQ_WriteToModemNVRAM(FT_NVRAM_WRITE_REQ *psNVRAM_WriteReq, 
     return meta_result;
 }
 
+
+
 void SNBase::GetScanData(ScanData_struct &pScanData)
 {
     memset(&m_sScanData, 0, sizeof(ScanData_struct));
@@ -1131,6 +1133,28 @@ void SNBase::MDLogOff()
     }
 }
 
+//add by wzb 20190319
+void SNBase::CustomInfo_Init()
+{
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS1, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS2, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS3, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS4, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS5, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS6, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS7, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS8, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO1, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO2, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO3, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO4, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO5, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO6, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO7, "");
+	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO8, "");
+
+}
+
 void SNBase::SNThread_Init()
 {
     //Get main dialog handle
@@ -1143,8 +1167,18 @@ void SNBase::SNThread_Init()
     memset(m_strBackupIMEI, 0, IMEI_ARRAY_LEN);
     memset(m_sIMEISV, 0, sizeof(IMEISV_struct_T)*MAX_IMEI_NUMS);
     memset(&m_sScanData, 0, sizeof(ScanData_struct));
+	//add by wzb 
+	CustomInfo_Init();
+	//end
     GetScanData(g_sMetaComm.sScanData);
+	//add by wzb 20190319
+	if(m_sScanData.strBarcode!=NULL && strlen(m_sScanData.strBarcode)>0)
+	{
+		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS2, "ok");
+		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO2, m_sScanData.strBarcode);
+	}
 
+	//end
     g_iMetaStopFlag = 0;
     m_hThread = NULL;
     m_iThreadID = 0;

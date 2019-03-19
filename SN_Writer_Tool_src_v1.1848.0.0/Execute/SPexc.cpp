@@ -112,21 +112,25 @@ META_RESULT SmartPhoneSN::WriteCountryCode()
 	MetaResult = ReadSN_From_PRODINFO();
 	if (MetaResult != META_SUCCESS)
 	{
-		//return MetaResult;
+	
+		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS4, "fail");
 		MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode()check SN FAIL!");
 	}
 	else
 	{
 		UpdateProgress(0.5);
+		
+		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS4, "ok");
 		MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode()check SN OK!");
 		MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode()write countrycode start");
 		MetaResult=REQ_CountryCode_WriteAP_NVRAM_Start(m_sScanData.strSerialNo,1);
 		if(MetaResult != META_SUCCESS)
 		{
+			g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS5, "fail");
 			MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode() write countrycode fail");
 		}else
 		{
-		
+			g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS5, "ok");
 			MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode() write countrycode ok");
 		}
 	}
@@ -4042,8 +4046,12 @@ void SmartPhoneSN::ThreadMainEntryPoint()
         }
 
         EnableStartBTN(true);
-
+		//add by wzb
+		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS3, "连接中...");
+	
         MetaResult = (META_RESULT)EnterAPMetaMode();
+		//add by wzb
+		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS3, "已连接");
         if (MetaResult != META_SUCCESS)
         {
             bAnyOperationFail = true;
@@ -4194,7 +4202,9 @@ End:
         {
             if (m_eMetaMode == SP_AP_META || m_eMetaMode == SP_MODEM_META)
             {
-                ExitAPMetaMode();//wzb del
+                ExitAPMetaMode();
+				//add by wzb
+				g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS7, "ok");
             }
 
             //The backup nvram api return success, but the operator pull up usb cable immediately before all operation successfully.

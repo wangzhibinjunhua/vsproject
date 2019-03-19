@@ -117,6 +117,7 @@ protected:
     void MDLogOff();
 
 public:
+	void CustomInfo_Init();
     void SNThread_Init();
     void SNThread_Start();
     void SNThread_Stop();
