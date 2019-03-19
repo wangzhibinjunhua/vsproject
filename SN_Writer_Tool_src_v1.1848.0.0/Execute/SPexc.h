@@ -74,6 +74,7 @@ protected:
 
     virtual META_RESULT ConductProdInfoData(unsigned char *pBuf, int nBufLen);
     virtual META_RESULT REQ_WriteAP_PRODINFO_Start();
+	virtual META_RESULT ReadSN_From_PRODINFO();//add by wzb
 
     virtual META_RESULT REQ_ReadFromAPNVRAM(AP_FT_NVRAM_READ_REQ *psNVRAM_ReadReq, AP_FT_NVRAM_READ_CNF *psNVRAM_ReadCnf);
     virtual META_RESULT REQ_WriteToAPNVRAM(AP_FT_NVRAM_WRITE_REQ sNVRAM_WriteReq);
@@ -103,6 +104,7 @@ protected:
     virtual bool DSDA_ExternalModemBackup();
 
     virtual META_RESULT WriteNvramLoop();
+	virtual META_RESULT WriteCountryCode();//add by wzb
     virtual int REQ_FastbootLockOem(void);
     virtual int REQ_FastbootUnLockOem(void);
     int Fastboot_Lock_Oem();
