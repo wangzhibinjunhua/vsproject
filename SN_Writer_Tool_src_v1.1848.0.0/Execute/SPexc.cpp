@@ -112,14 +112,26 @@ META_RESULT SmartPhoneSN::WriteCountryCode()
 	MetaResult = ReadSN_From_PRODINFO();
 	if (MetaResult != META_SUCCESS)
 	{
-
+		//return MetaResult;
+		MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode()check SN FAIL!");
 	}
 	else
 	{
-
+		UpdateProgress(0.5);
+		MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode()check SN OK!");
+		MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode()write countrycode start");
+		MetaResult=REQ_CountryCode_WriteAP_NVRAM_Start(m_sScanData.strSerialNo,1);
+		if(MetaResult != META_SUCCESS)
+		{
+			MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode() write countrycode fail");
+		}else
+		{
+		
+			MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode() write countrycode ok");
+		}
 	}
+	
 	MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode() end...");
-
 	return MetaResult;
 
 }
@@ -2432,6 +2444,175 @@ META_RESULT SmartPhoneSN::REQ_ReadAP_NVRAM_Start(WriteData_Type_e dataType, char
     MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::REQ_ReadAP_NVRAM_Start() Success...");
     return MetaResult;
 }
+
+//add by wzb 20190319
+META_RESULT SmartPhoneSN::REQ_CountryCode_WriteAP_NVRAM_Start(char *pInData, unsigned short iRID)
+{
+    if (!pInData)
+    {
+        return META_INVALID_ARGUMENTS;
+    }
+    m_bWriteNvram = true;
+
+    int iBufLen = 0;
+    char *pLID = NULL;
+    pConductDataFunc pDataFunc = NULL;
+
+
+	//for country code
+	iBufLen = 2;
+    pLID = "AP_CFG_RDEB_FILE_WIFI_LID";
+    pDataFunc = &SmartPhoneSN::ConductCountryCodeData;
+
+   
+    const int MAX_DATA_LENGTH = 2;
+    int iMetaTimeout = 5000;
+
+    AP_FT_NVRAM_WRITE_REQ sNVRAM_WriteReq;
+    AP_FT_NVRAM_READ_REQ sNVRAM_ReadReq;
+    AP_FT_NVRAM_READ_CNF sNVRAM_ReadCnf;
+    META_RESULT meta_result;
+    char pWriteData[MAX_DATA_LENGTH] = {0};
+    char pReadData[MAX_DATA_LENGTH] = {0};
+    int iWriteBufSize = 0;
+    unsigned long wifiChipVersion = 0;
+    char *pFuncName = NULL;
+    int rs = 0;
+
+    memset(&sNVRAM_WriteReq, 0, sizeof(AP_FT_NVRAM_WRITE_REQ));
+    memset(&sNVRAM_ReadReq, 0, sizeof(AP_FT_NVRAM_READ_REQ));
+    memset(&sNVRAM_ReadCnf, 0, sizeof(AP_FT_NVRAM_READ_CNF));
+
+    MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::SP_META_NVRAM_GetRecLen(): Start to get nvram struct size via LID = \"%s\"...", pLID);
+    meta_result = SP_META_NVRAM_GetRecLen(pLID, &iWriteBufSize);
+    if (  META_SUCCESS != meta_result)
+    {
+        MTRACE_ERR (g_hEBOOT_DEBUG, "SmartPhoneSN::SP_META_NVRAM_GetRecLen(): Get nvram struct size fail, MetaResult = %s", ResultToString_SP(meta_result));
+        return meta_result;
+    }
+    else
+    {
+        MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::SP_META_NVRAM_GetRecLen(): Get nvram struct size = %d successfully!", iWriteBufSize);
+        if ( NULL != sNVRAM_ReadCnf.buf )
+        {
+            free ( sNVRAM_ReadCnf.buf );
+            sNVRAM_ReadCnf.buf = NULL;
+        }
+
+        sNVRAM_ReadReq.LID = pLID;
+        sNVRAM_ReadReq.RID = iRID;
+        sNVRAM_ReadCnf.len = iWriteBufSize;
+        sNVRAM_ReadCnf.buf = (unsigned char*) malloc (iWriteBufSize * sizeof(unsigned char));
+        if (NULL == sNVRAM_ReadCnf.buf)
+        {
+            MTRACE_ERR (g_hEBOOT_DEBUG, "Malloc heap memory cause fail!");
+            return  META_FAILED;
+        }
+    }
+
+
+    MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::REQ_ReadFromAPNVRAM(): Start to read nvram data...");
+    meta_result =  REQ_ReadFromAPNVRAM (&sNVRAM_ReadReq, &sNVRAM_ReadCnf);
+    if (meta_result != META_SUCCESS )
+    {
+        pFuncName = "SmartPhoneSN::REQ_ReadFromAPNVRAM()";
+        goto Err;
+    }
+
+
+   
+    MTRACE (g_hEBOOT_DEBUG, "SNBase::ConductCountryCodeData(): Start Conduct wifi nvram data...!");
+    pFuncName = "SNBase::ConductCountryCodeData()";
+    rs = (this->*pDataFunc)((char*)sNVRAM_ReadCnf.buf + 0xa, iRID, pInData, iBufLen);
+    for (int i = 0; i < iBufLen; i++)
+    {
+        pWriteData[i] = sNVRAM_ReadCnf.buf[0xa + i];
+    }
+    
+ 
+    meta_result = (META_RESULT)rs;
+    if (meta_result !=  META_SUCCESS)
+    {
+        goto Err;
+    }
+    MTRACE (g_hEBOOT_DEBUG, "%s: Conduct nvram data successfully!", pFuncName);
+
+    sNVRAM_WriteReq.LID = pLID;
+    sNVRAM_WriteReq.RID = iRID;
+    sNVRAM_WriteReq.len = iWriteBufSize;
+    sNVRAM_WriteReq.buf = sNVRAM_ReadCnf.buf;
+    m_sNVRAM_OPID = iRID;
+
+    MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::REQ_CountryCode_WriteAP_NVRAM(): Start to write nvram data...");
+    meta_result =  REQ_WriteToAPNVRAM(sNVRAM_WriteReq);
+    if (meta_result != META_SUCCESS )
+    {
+        pFuncName = "SmartPhoneSN::REQ_WriteToAPNVRAM()";
+        goto Err;
+    }
+    MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::REQ_WriteToAPNVRAM(): Write nvram data successfully!");
+
+    MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::REQ_WriteToAPNVRAM(): Read nvram data for check start...");
+    memset(sNVRAM_ReadCnf.buf, 0 , sNVRAM_ReadCnf.len);
+    meta_result = REQ_ReadFromAPNVRAM (&sNVRAM_ReadReq, &sNVRAM_ReadCnf);
+    if (meta_result != META_SUCCESS )
+    {
+        pFuncName = "SmartPhoneSN::REQ_ReadFromAPNVRAM()";
+        goto Err;
+    }
+    else
+    {
+        char *pDataType = "Country Code";
+        memset(pReadData, 0, sizeof(char)*MAX_DATA_LENGTH);
+        
+        //countrycode address offset is 0xa
+        for (int i = 0; i < iBufLen; i++)
+        {
+           pReadData[i] = sNVRAM_ReadCnf.buf[0xa + i];
+        }
+        
+        
+        char tmpReadData[5] = {0};
+        m_bWriteNvram = false;
+        (this->*pDataFunc)(tmpReadData, iRID, pReadData, iBufLen);
+
+        if (strncmp(pWriteData, pReadData, iBufLen) != 0)
+        {
+            MTRACE(g_hEBOOT_DEBUG, "SmartPhoneSN: Write_%s[%s]", pDataType, pInData);
+            MTRACE(g_hEBOOT_DEBUG, "SmartPhoneSN: Read_%s[%s]", pDataType, tmpReadData);
+            MTRACE_ERR (g_hEBOOT_DEBUG, "SmartPhoneSN: Check nvram data FAIL!!");
+            meta_result = META_FAILED;
+        }
+        else
+        {
+            MTRACE(g_hEBOOT_DEBUG, "SmartPhoneSN: Write_%s[%s]", pDataType, pInData);
+            MTRACE(g_hEBOOT_DEBUG, "SmartPhoneSN: Read_%s[%s]", pDataType, tmpReadData);
+            MTRACE(g_hEBOOT_DEBUG, "SmartPhoneSN: Check nvram data PASS!!");
+        }
+    }
+    MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::REQ_WriteToAPNVRAM(): Read nvram data for check end...");
+
+    if (sNVRAM_ReadCnf.buf != NULL)
+    {
+        free (sNVRAM_ReadCnf.buf);
+        sNVRAM_ReadCnf.buf = NULL;
+    }
+
+    return meta_result;
+
+Err:
+    if (sNVRAM_ReadCnf.buf != NULL)
+    {
+        free (sNVRAM_ReadCnf.buf);
+        sNVRAM_ReadCnf.buf = NULL;
+    }
+
+    MTRACE_ERR (g_hEBOOT_DEBUG, "%s: fail! MetaResult = %s", pFuncName, ResultToString_SP(meta_result));
+    return meta_result;
+}
+
+
+//end
 
 META_RESULT SmartPhoneSN::REQ_WriteAP_NVRAM_Start(WriteData_Type_e dataType, char *pInData, unsigned short iRID)
 {

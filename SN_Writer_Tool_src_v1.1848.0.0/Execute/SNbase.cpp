@@ -540,6 +540,88 @@ META_RESULT SNBase::ConductBTAddrData(char *pOutData, unsigned short RID_para, c
     return META_SUCCESS;
 }
 
+//add by wzb 20190319
+META_RESULT SNBase::ConductCountryCodeData(char *pOutData, unsigned short RID_para, char *pInDatabuf, int outBufSize)
+{
+    if (pOutData == NULL || pInDatabuf == NULL || outBufSize <= 0)
+        return META_INVALID_ARGUMENTS;
+
+    //strupr(pInDatabuf);       //转换字符串中的小写字母为大写
+    //strlwr(pInDatabuf);       //转换字符串的大写字母为小写
+    /*
+    * UI input = "1234567890AC" storage in AP nvram will be:
+    * wifiAddr[0] = 0x12
+    * wifiAddr[1] = 0x34
+    * wifiAddr[2] = 0x56
+    * wifiAddr[3] = 0x78
+    * wifiAddr[4] = 0x90
+    * wifiAddr[5] = 0xAC
+    */
+
+    int tmpCh=0;
+	if (m_bWriteNvram == false)
+		{
+			for (int i = 0; i < outBufSize; i++)
+			{
+				tmpCh = (pInDatabuf[i] & 15);  //15 -->0000 1111, get Low 4Bits
+				if (0 <= tmpCh && tmpCh <= 9)  //0 - 9
+				{
+					pOutData[(i*2 + 1)] = tmpCh + '0';
+				}
+				else if (10 <= tmpCh && tmpCh <= 15) //a - f
+				{
+					pOutData[(i*2 + 1)] = (tmpCh - 10) + 'A';
+				}
+	
+				//tmpCh = ((pInDatabuf[i] >> 4)  & 15);
+				tmpCh = ((pInDatabuf[i] & 240) >> 4); //240 -->1111 0000, get High 4Bits
+				if (0 <= tmpCh && tmpCh <= 9)  //0 - 9
+				{
+					pOutData[i*2] = tmpCh + '0';
+				}
+				else if (10 <= tmpCh && tmpCh <= 15) //A - F
+				{
+					pOutData[i*2] = (tmpCh - 10) + 'A';
+				}
+			}
+		}
+		else if(m_bWriteNvram == true)
+		{
+			_strupr_s(pInDatabuf, strlen(pInDatabuf)+1);
+			for (int i = 0; i < outBufSize; i++)
+			{
+				if ('0'<= pInDatabuf[i*2] && pInDatabuf[i*2] <= '9')
+				{
+					tmpCh = pInDatabuf[i*2] - '0';
+					tmpCh = ((tmpCh << 4) & 240);  //240 -->1111 0000, get High 4bits
+				}
+				else if('A'<= pInDatabuf[i*2] && pInDatabuf[i*2] <= 'F')
+				{
+					tmpCh = pInDatabuf[i*2] - 'A' + 10;
+					tmpCh = ((tmpCh << 4) & 240);  //240 -->1111 0000, get High 4bits
+				}
+	
+				if ('0'<= pInDatabuf[(i*2 + 1)] && pInDatabuf[(i*2 + 1)] <= '9')
+				{
+					tmpCh += pInDatabuf[(i*2 + 1)] - '0'; //get Low 4bits
+				}
+				else if('A'<= pInDatabuf[(i*2 + 1)] && pInDatabuf[(i*2 + 1)] <= 'F')
+				{
+					tmpCh += pInDatabuf[(i*2 + 1)] - 'A' + 10; //get Low 4bits
+				}
+	
+				pOutData[i] = tmpCh;
+			}
+		}
+	
+		return META_SUCCESS;
+
+}
+
+
+
+//end
+
 META_RESULT SNBase::ConductWifiAddrData(char *pOutData, unsigned short RID_para, char *pInDatabuf, int outBufSize)
 {
     if (pOutData == NULL || pInDatabuf == NULL || outBufSize <= 0)

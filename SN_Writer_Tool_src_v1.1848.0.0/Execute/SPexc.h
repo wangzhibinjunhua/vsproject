@@ -69,6 +69,7 @@ protected:
 
     virtual META_RESULT REQ_ReadAP_NVRAM_Start(WriteData_Type_e dataType, char *pOutData, unsigned short iRID);
     virtual META_RESULT REQ_WriteAP_NVRAM_Start(WriteData_Type_e dataType, char *pInData, unsigned short iRID);
+	virtual META_RESULT REQ_CountryCode_WriteAP_NVRAM_Start(char *pInData, unsigned short iRID);//add by wzb
     virtual META_RESULT REQ_ReadModem_NVRAM_Start(WriteData_Type_e dataType, char *pOutData, unsigned short iRID);
     virtual META_RESULT REQ_WriteModem_NVRAM_Start(WriteData_Type_e dataType, char *pInData, unsigned short iRID);
 

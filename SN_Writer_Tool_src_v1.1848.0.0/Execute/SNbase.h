@@ -93,6 +93,7 @@ protected:
     virtual META_RESULT ConductIMEIData(char *pOutData, unsigned short RID_para, char *pInDatabuf, int outBufSize);
     virtual META_RESULT ConductBTAddrData(char *pOutData, unsigned short RID_para, char *pInDatabuf, int outBufSize);
     virtual META_RESULT ConductWifiAddrData(char *pOutData, unsigned short RID_para, char *pInDatabuf, int outBufSize);
+	virtual META_RESULT ConductCountryCodeData(char *pOutData, unsigned short RID_para, char *pInDatabuf, int outBufSize);//add by wzb
     virtual META_RESULT ConductEthernetMacAddrData(char *pOutData, unsigned short RID_para, char *pInDatabuf, int outBufSize);
 
     virtual META_RESULT Decompose_IMEI(char *pOutData, unsigned short RID_para,  char *pInDatabuf, int bufSize);
