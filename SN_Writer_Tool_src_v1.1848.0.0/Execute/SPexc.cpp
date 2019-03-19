@@ -109,8 +109,8 @@ META_RESULT SmartPhoneSN::WriteCountryCode()
 	MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode() scanSN=%s...",m_sScanData.strBarcode);
 	UpdateProgress(0.25);
 	META_RESULT MetaResult = META_SUCCESS;
-	int iRet = ReadSN_From_PRODINFO();
-	if (iRet != META_SUCCESS)
+	MetaResult = ReadSN_From_PRODINFO();
+	if (MetaResult != META_SUCCESS)
 	{
 
 	}
@@ -1587,7 +1587,7 @@ META_RESULT SmartPhoneSN::ReadSN_From_PRODINFO()
 		memcpy(pReadData, sNVRAM_ReadCnf.buf, 64);
 		(this->*pDataFunc)(tmpReadData, 1, pReadData, 64);
 
-		if (strncmp(m_sScanData.strBarcode, pReadData, 64) != 0){
+		if (strncmp(m_sScanData.strBarcode, tmpReadData, 64) != 0){
 			MTRACE(g_hEBOOT_DEBUG, "SmartPhoneSN: ScanSN[%s]", m_sScanData.strBarcode);
             MTRACE(g_hEBOOT_DEBUG, "SmartPhoneSN: ReadSN[%s]", tmpReadData);
             MTRACE(g_hEBOOT_DEBUG, "SmartPhoneSN: Check SN data FAIL!!");
