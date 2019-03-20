@@ -36,6 +36,14 @@ public:
 	//}}AFX_DATA
 
 	//add by wzb
+	CProgressCtrl	m_ProgressStatus1;
+	CProgressCtrl	m_ProgressStatus2;
+	CProgressCtrl	m_ProgressStatus3;
+	CProgressCtrl	m_ProgressStatus4;
+	CProgressCtrl	m_ProgressStatus5;
+	CProgressCtrl	m_ProgressStatus6;
+	CProgressCtrl	m_ProgressStatus7;
+	CProgressCtrl	m_ProgressStatus8;
 	CString	m_strTestItem;
 	CString	m_strTestItem1;
 	CString	m_strTestItem2;

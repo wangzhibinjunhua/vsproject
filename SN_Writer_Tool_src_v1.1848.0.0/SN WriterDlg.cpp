@@ -76,6 +76,14 @@ void CSNWriterDlg::DoDataExchange(CDataExchange* pDX)
     //}}AFX_DATA_MAP
 
 	//add by wzb
+	DDX_Control(pDX, IDC_PROGRESS_STATUS1, m_ProgressStatus1);
+	DDX_Control(pDX, IDC_PROGRESS_STATUS2, m_ProgressStatus2);
+	DDX_Control(pDX, IDC_PROGRESS_STATUS3, m_ProgressStatus3);
+	DDX_Control(pDX, IDC_PROGRESS_STATUS4, m_ProgressStatus4);
+	DDX_Control(pDX, IDC_PROGRESS_STATUS5, m_ProgressStatus5);
+	DDX_Control(pDX, IDC_PROGRESS_STATUS6, m_ProgressStatus6);
+	DDX_Control(pDX, IDC_PROGRESS_STATUS7, m_ProgressStatus7);
+	DDX_Control(pDX, IDC_PROGRESS_STATUS8, m_ProgressStatus8);
 	DDX_Text(pDX, IDC_TV_TESTITEM, m_strTestItem);
 	DDX_Text(pDX, IDC_TV_TESTITEM1, m_strTestItem1);
 	DDX_Text(pDX, IDC_TV_TESTITEM2, m_strTestItem2);

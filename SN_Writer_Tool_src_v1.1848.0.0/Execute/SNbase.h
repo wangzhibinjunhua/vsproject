@@ -87,7 +87,9 @@ protected:
 
     virtual META_RESULT LoadModemDatabase(int MDindex) = 0;
     virtual void UpdateProgress(double dPercent);
+	virtual void UpdateStatusProgress(int iType,double dPercent,int iColor);
     virtual void SetProgress();
+	virtual void SetStatusProgress();
 	virtual META_RESULT ConductBarcodeDataNoSyncProdinfo(char *pOutData, unsigned short RID_para, char *pInDatabuf, int outBufSize);//add by wzb
     virtual META_RESULT ConductBarcodeData(char *pOutData, unsigned short RID_para, char *pInDatabuf, int outBufSize);
     virtual META_RESULT ConductIMEIData(char *pOutData, unsigned short RID_para, char *pInDatabuf, int outBufSize);

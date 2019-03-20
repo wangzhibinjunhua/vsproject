@@ -112,7 +112,7 @@ META_RESULT SmartPhoneSN::WriteCountryCode()
 	MetaResult = ReadSN_From_PRODINFO();
 	if (MetaResult != META_SUCCESS)
 	{
-	
+		UpdateStatusProgress(4,1.0,0);
 		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO4, "fail");
 		MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode()check SN FAIL!");
 	}
@@ -4052,6 +4052,7 @@ void SmartPhoneSN::ThreadMainEntryPoint()
 	
         MetaResult = (META_RESULT)EnterAPMetaMode();
 		//add by wzb
+		UpdateStatusProgress(3,1.0,1);
 		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO3, "ÒÑÁ¬½Ó");
         if (MetaResult != META_SUCCESS)
         {
@@ -4205,6 +4206,7 @@ End:
             {
                 ExitAPMetaMode();
 				//add by wzb
+				UpdateStatusProgress(7,1.0,1);
 				g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO7, "pass");
             }
 

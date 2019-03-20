@@ -151,12 +151,32 @@ UINT SNBase::ThreadStaticEntryPoint(LPVOID pThis)
     return 1;
 }
 
+//add by wzb 20190320
+void SNBase::SetStatusProgress()
+{
+    
+    //(&(g_pMainDlg->m_ProgressStatus1))->SetRange(0, 1000);
+	//(&(g_pMainDlg->m_ProgressStatus1))->SendMessage(PBM_SETBARCOLOR, 0, RGB(0, 0, 255));
+    UpdateStatusProgress(1,0.01,0);
+	UpdateStatusProgress(2,0.01,0);
+	UpdateStatusProgress(3,0.01,0);
+	UpdateStatusProgress(4,0.01,0);
+	UpdateStatusProgress(5,0.01,0);
+	UpdateStatusProgress(6,0.01,0);
+	UpdateStatusProgress(7,0.01,0);
+	UpdateStatusProgress(8,0.01,0);
+	
+}
+
+
+//end
+
 void SNBase::SetProgress()
 {
     m_iProcessRange = 1000;
     m_Process->SetRange(0, m_iProcessRange);
     m_Process->SendMessage(PBM_SETBARCOLOR, 0, RGB(0, 0, 255));
-    UpdateProgress(0.01);
+	UpdateProgress(0.01);
 }
 
 int SNBase::UpdateUIMsg(const char * strMsg, ...)
@@ -216,6 +236,65 @@ void SNBase::UpdateMainDlgUI(bool bEnable, WriteNvram_Status_e eWriteStatus)
     g_pMainDlg->UpdateOperateResult(eWriteStatus);
 
 }
+
+//add by wzb 20190320
+void SNBase::UpdateStatusProgress(int iType,double dPercent,int iColor)
+{
+    if (dPercent >= 1)
+    {
+        dPercent = 1;
+    }
+
+    int curPos = (int)(dPercent * 100);
+	CProgressCtrl *pStatusProcess=NULL;
+
+	switch(iType)
+	{
+		case 1:
+			pStatusProcess=&(g_pMainDlg->m_ProgressStatus1);
+			break;
+		case 2:
+			pStatusProcess=&(g_pMainDlg->m_ProgressStatus2);
+			break;
+		case 3:
+			pStatusProcess=&(g_pMainDlg->m_ProgressStatus3);
+			break;
+		case 4:
+			pStatusProcess=&(g_pMainDlg->m_ProgressStatus4);
+			break;
+		case 5:
+			pStatusProcess=&(g_pMainDlg->m_ProgressStatus5);
+			break;
+		case 6:
+			pStatusProcess=&(g_pMainDlg->m_ProgressStatus6);
+			break;
+		case 7:
+			pStatusProcess=&(g_pMainDlg->m_ProgressStatus7);
+			break;
+		case 8:
+			pStatusProcess=&(g_pMainDlg->m_ProgressStatus8);
+			break;
+		default:
+			break;
+	}
+	if(pStatusProcess!=NULL)
+	{
+		pStatusProcess->SetRange(0, 100);
+		if(iColor==1)
+		{
+			pStatusProcess->SendMessage(PBM_SETBARCOLOR, 0, RGB(0, 255,0));
+		}
+		else
+		{
+			pStatusProcess->SendMessage(PBM_SETBARCOLOR, 0, RGB(255, 0, 0));
+		}
+		pStatusProcess->SetPos(curPos);
+	}
+}
+
+
+
+//end
 
 void SNBase::UpdateProgress(double dPercent)
 {
@@ -1137,6 +1216,7 @@ void SNBase::MDLogOff()
 void SNBase::CustomInfo_Init()
 {
 
+	SetStatusProgress();
 	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO1, "");
 	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO2, "");
 	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO3, "");
@@ -1169,6 +1249,7 @@ void SNBase::SNThread_Init()
 	{
 		
 		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO2, m_sScanData.strBarcode);
+		UpdateStatusProgress(2,1.0,1);
 	}
 
 	//end
