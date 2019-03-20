@@ -1136,14 +1136,7 @@ void SNBase::MDLogOff()
 //add by wzb 20190319
 void SNBase::CustomInfo_Init()
 {
-	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS1, "");
-	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS2, "");
-	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS3, "");
-	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS4, "");
-	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS5, "");
-	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS6, "");
-	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS7, "");
-	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS8, "");
+
 	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO1, "");
 	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO2, "");
 	g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO3, "");
@@ -1174,7 +1167,7 @@ void SNBase::SNThread_Init()
 	//add by wzb 20190319
 	if(m_sScanData.strBarcode!=NULL && strlen(m_sScanData.strBarcode)>0)
 	{
-		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS2, "ok");
+		
 		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO2, m_sScanData.strBarcode);
 	}
 

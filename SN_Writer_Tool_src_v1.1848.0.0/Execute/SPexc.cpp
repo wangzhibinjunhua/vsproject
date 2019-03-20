@@ -113,24 +113,24 @@ META_RESULT SmartPhoneSN::WriteCountryCode()
 	if (MetaResult != META_SUCCESS)
 	{
 	
-		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS4, "fail");
+		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO4, "fail");
 		MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode()check SN FAIL!");
 	}
 	else
 	{
 		UpdateProgress(0.5);
 		
-		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS4, "ok");
+		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO4, "pass");
 		MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode()check SN OK!");
 		MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode()write countrycode start");
 		MetaResult=REQ_CountryCode_WriteAP_NVRAM_Start(m_sScanData.strSerialNo,1);
 		if(MetaResult != META_SUCCESS)
 		{
-			g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS5, "fail");
+			g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO5, "fail");
 			MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode() write countrycode fail");
 		}else
 		{
-			g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS5, "ok");
+			g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO5, "pass");
 			MTRACE (g_hEBOOT_DEBUG, "SmartPhoneSN::WriteCountryCode() write countrycode ok");
 		}
 	}
@@ -4048,11 +4048,11 @@ void SmartPhoneSN::ThreadMainEntryPoint()
 
         EnableStartBTN(true);
 		//add by wzb
-		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS3, "连接中...");
+		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO3, "连接中...");
 	
         MetaResult = (META_RESULT)EnterAPMetaMode();
 		//add by wzb
-		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS3, "已连接");
+		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO3, "已连接");
         if (MetaResult != META_SUCCESS)
         {
             bAnyOperationFail = true;
@@ -4205,7 +4205,7 @@ End:
             {
                 ExitAPMetaMode();
 				//add by wzb
-				g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_STATUS7, "ok");
+				g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO7, "pass");
             }
 
             //The backup nvram api return success, but the operator pull up usb cable immediately before all operation successfully.
