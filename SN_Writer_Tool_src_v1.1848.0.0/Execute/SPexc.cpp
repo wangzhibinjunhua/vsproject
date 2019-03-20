@@ -1542,6 +1542,7 @@ META_RESULT SmartPhoneSN::ConductProdInfoData(unsigned char *pBuf, int nBufLen)
 }
 
 //add by wzb 20190318
+
 META_RESULT SmartPhoneSN::ReadSN_From_PRODINFO()
 {
     META_RESULT meta_result = META_SUCCESS;
