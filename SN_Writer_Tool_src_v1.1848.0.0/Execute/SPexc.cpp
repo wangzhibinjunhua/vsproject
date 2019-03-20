@@ -3768,7 +3768,9 @@ META_RESULT SmartPhoneSN::EnterAPMetaMode()
             spMetaResult = (META_RESULT)bootResult;
             return spMetaResult;
         }
-
+		//add by wzb
+		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO3, "连接中...");
+		UpdateStatusProgress(3,0.4,0);
         // Kernel Port apear at least take 6s, Wait 4s for Preloader Port disapear
         //  when Preloader and Kernel has the same port
         Sleep(4000);
@@ -3787,6 +3789,9 @@ META_RESULT SmartPhoneSN::EnterAPMetaMode()
     if (bootResult == 0)
     {
         UpdateUIMsg("Searching kernel com port and handshake OK.");
+		//add by wzb
+		UpdateStatusProgress(3,1.0,1);
+		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO3, "已连接");
     }
     else
     {
@@ -4047,16 +4052,18 @@ void SmartPhoneSN::ThreadMainEntryPoint()
         }
 
         EnableStartBTN(true);
-		//add by wzb
-		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO3, "连接中...");
+		
 	
         MetaResult = (META_RESULT)EnterAPMetaMode();
-		//add by wzb
-		UpdateStatusProgress(3,1.0,1);
-		g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO3, "已连接");
+		
         if (MetaResult != META_SUCCESS)
         {
             bAnyOperationFail = true;
+
+			//add by wzb
+			g_pMainDlg->SetDlgItemText(IDC_TV_TESTITEM_INFO3, "fail");
+			UpdateStatusProgress(3,1.0,0);
+			//end
             goto End;
         }
 

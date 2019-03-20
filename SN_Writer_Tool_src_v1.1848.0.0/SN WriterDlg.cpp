@@ -492,9 +492,10 @@ void CSNWriterDlg::SetUIItem()
     GetComPortDynamiclly();
 
     m_cTargetTypeBox.InsertString(SMART_PHONE, "Smart Phone");
-    m_cTargetTypeBox.InsertString(SMART_PHONE_DUALMODEM, "SP DualModem");
-    m_cTargetTypeBox.InsertString(TABLET_WIFI_ONLY, "Tablet Wifi Only");
-    m_cTargetTypeBox.InsertString(RNDIG_DONGLE, "Rndis Dongle");
+	//del by wzb
+    //m_cTargetTypeBox.InsertString(SMART_PHONE_DUALMODEM, "SP DualModem");
+    //m_cTargetTypeBox.InsertString(TABLET_WIFI_ONLY, "Tablet Wifi Only");
+    //m_cTargetTypeBox.InsertString(RNDIG_DONGLE, "Rndis Dongle");
     m_cTargetTypeBox.SetCurSel(g_sMetaComm.eTargetType);
 }
 

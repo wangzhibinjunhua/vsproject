@@ -739,8 +739,10 @@ bool CScanData::CheckScanData(const char *pStrHeader, bool bCheckHeader, const c
         {
             if (dataLength != 15)
             {
-                sprintf_s(pScanMsg, "%s = \"%s\" length must be 15!", m_pstrScanItem, pInData);
-                SetDlgItemText(IDC_SCAN_MSG, pScanMsg);
+				//modify by wzb 20190320
+			   // sprintf_s(pScanMsg, "%s = \"%s\" length must be 15!", m_pstrScanItem, pInData);
+				sprintf_s(pScanMsg, "SMO = \"%s\" length must be 15!",  pInData);
+			   SetDlgItemText(IDC_SCAN_MSG, pScanMsg);
                 return false;
             }
         }
@@ -748,7 +750,9 @@ bool CScanData::CheckScanData(const char *pStrHeader, bool bCheckHeader, const c
         {
             if (dataLength <= 0 || dataLength > SERIAL_NO_LEN)
             {
-                sprintf_s(pScanMsg, "%s = \"%s\" length must not be longer than %d!", m_pstrScanItem, pInData, SERIAL_NO_LEN);
+				//modify by wzb 20190320
+				//sprintf_s(pScanMsg, "%s = \"%s\" length must not be longer than %d!", m_pstrScanItem, pInData, SERIAL_NO_LEN);
+				sprintf_s(pScanMsg, "SMO = \"%s\" length must not be longer than %d!",  pInData, SERIAL_NO_LEN);
                 SetDlgItemText(IDC_SCAN_MSG, pScanMsg);
                 return false;
             }
