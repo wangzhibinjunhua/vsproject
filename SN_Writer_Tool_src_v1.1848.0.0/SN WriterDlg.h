@@ -56,6 +56,8 @@ public:
 	CString	m_strTestItemTime;
 	CString	m_strTestItemStatus;
 	CString	m_strTestItemInfo;
+	CString	m_strTestOKPercent;
+	CString	m_strTestOKTime;
 
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSNWriterDlg)

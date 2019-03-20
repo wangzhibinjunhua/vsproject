@@ -56,6 +56,8 @@ CSNWriterDlg::CSNWriterDlg(CWnd* pParent /*=NULL*/)
 	m_strTestItemTime = _T("耗时");
 	m_strTestItemInfo = _T("详细信息");
 	m_strTestItemStatus = _T("状态");
+	m_strTestOKPercent= _T("成功率");
+	m_strTestOKTime= _T("平均耗时");
     //}}AFX_DATA_INIT
     // Note that LoadIcon does not require a subsequent DestroyIcon in Win32
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
@@ -96,6 +98,8 @@ void CSNWriterDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_TV_TESTITEM_STATUS, m_strTestItemStatus);
 	DDX_Text(pDX, IDC_TV_TESTITEM_TIME, m_strTestItemTime);
 	DDX_Text(pDX, IDC_TV_TESTITEM_INFO, m_strTestItemInfo);
+	DDX_Text(pDX, IDC_TV_TEST_OK_PERCENT, m_strTestOKPercent);
+	DDX_Text(pDX, IDC_TV_TEST_OK_TIME, m_strTestOKTime);
 
     DDX_Control(pDX, IDC_BTN_INDITE, m_InditeBTN);
 
