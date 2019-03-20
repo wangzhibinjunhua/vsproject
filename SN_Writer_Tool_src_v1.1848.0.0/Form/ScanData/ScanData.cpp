@@ -8,6 +8,7 @@
 #include "Common.h"
 #include "AutoGen.h"
 
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -74,7 +75,8 @@ void CScanData::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_DRMKEY_MCID_DATA, m_strDrmkeyMCIDData);
 	DDV_MaxChars(pDX, m_strDrmkeyMCIDData, 32);
 	DDX_Text(pDX, IDC_SERIAL_NO_DATA, m_strSerialNoData);
-	DDV_MaxChars(pDX, m_strSerialNoData, SERIAL_NO_LEN);
+	//DDV_MaxChars(pDX, m_strSerialNoData, SERIAL_NO_LEN);
+	DDV_MaxChars(pDX, m_strSerialNoData, 12); //modify by wzb
 	// C2K modem
 	DDX_Text(pDX, IDC_MEID_DATA, m_strMeidData);
 	DDV_MaxChars(pDX, m_strMeidData, 14);
@@ -748,7 +750,9 @@ bool CScanData::CheckScanData(const char *pStrHeader, bool bCheckHeader, const c
         }
         else
         {
-            if (dataLength <= 0 || dataLength > SERIAL_NO_LEN)
+			//modify by wzb 20190320
+			#if 0
+			if (dataLength <= 0 || dataLength > SERIAL_NO_LEN)
             {
 				//modify by wzb 20190320
 				//sprintf_s(pScanMsg, "%s = \"%s\" length must not be longer than %d!", m_pstrScanItem, pInData, SERIAL_NO_LEN);
@@ -756,6 +760,16 @@ bool CScanData::CheckScanData(const char *pStrHeader, bool bCheckHeader, const c
                 SetDlgItemText(IDC_SCAN_MSG, pScanMsg);
                 return false;
             }
+			#else
+			if (dataLength !=12)
+            {
+				//modify by wzb 20190320
+				//sprintf_s(pScanMsg, "%s = \"%s\" length must not be longer than %d!", m_pstrScanItem, pInData, SERIAL_NO_LEN);
+				sprintf_s(pScanMsg, "SMO = \"%s\" length must be  12 !",  pInData);
+                SetDlgItemText(IDC_SCAN_MSG, pScanMsg);
+                return false;
+            }
+			#endif
         }
         break;
 
@@ -1190,7 +1204,7 @@ void CScanData::InitScanUI()
     memset(g_sMetaComm.sScanData.strIMEI[1], 0, sizeof(g_sMetaComm.sScanData.strIMEI[1]));
     memset(g_sMetaComm.sScanData.strIMEI[2], 0, sizeof(g_sMetaComm.sScanData.strIMEI[2]));
     memset(g_sMetaComm.sScanData.strIMEI[3], 0, sizeof(g_sMetaComm.sScanData.strIMEI[3]));
-    memset(g_sMetaComm.sScanData.strSerialNo, 0, sizeof(g_sMetaComm.sScanData.strSerialNo));
+    //memset(g_sMetaComm.sScanData.strSerialNo, 0, sizeof(g_sMetaComm.sScanData.strSerialNo));//del by wzb
     memset(g_sMetaComm.sScanData.strEthernetMac, 0, sizeof(g_sMetaComm.sScanData.strEthernetMac));
     memset(g_sMetaComm.sScanData.strDrmkeyMCID, 0, sizeof(g_sMetaComm.sScanData.strDrmkeyMCID));
     //c2k
@@ -1260,6 +1274,10 @@ void CScanData::InitScanUI()
 	{
 		SetDlgItemText(IDC_ESN_HEADER_SCAN, g_sMetaComm.sEsnHeader_Option.strHeader);
 	}
+
+	//add by wzb for smo 20190320
+	SetDlgItemText(IDC_SERIAL_NO_DATA, g_sMetaComm.sScanData.strSerialNo);
+	//end
 
 #ifdef _AUTO_GEN_FEATURE_
     if (g_AutoGenData.bEnableAutoGen)
