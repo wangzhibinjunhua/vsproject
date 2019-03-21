@@ -358,7 +358,8 @@ void CSNWriterDlg::ParameterInit()
 		g_sMetaComm.strDBPort,
 		g_sMetaComm.strDBName,
 		g_sMetaComm.strSoftwarePN);
-	::AfxMessageBox((const TCHAR *)strTempTestInfo, MB_ICONERROR);
+	//::AfxMessageBox((const TCHAR *)strTempTestInfo, MB_ICONERROR);
+	PopupMsgBox("Warning", MB_OK | MB_ICONWARNING, strTempTestInfo);
 #endif
 	//end
 
@@ -397,6 +398,7 @@ void CSNWriterDlg::EnableUIItem()
     }
 
     SetDlgItemText(IDC_BTN_START, "Start");
+	
 }
 
 void CSNWriterDlg::DisableUIItem()
