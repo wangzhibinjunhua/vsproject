@@ -62,12 +62,16 @@ BOOL CSNWriterApp::InitInstance()
     {
         CString strInfo;
         strInfo.Format(_T("Get setup files fail, please confirm these files path:\r\n")
-            _T("SN Setup, %s\r\n")
+			
+			_T("SN Setup, %s\r\n")
+			_T("CustomConfig, %s\r\n")//add by wzb for customconfig 20190321
 #ifdef _AUTO_GEN_FEATURE_
             _T("SN AutoGen, %s\r\n")
 #endif
             _T("SNDATA, %s\r\n"),
+           
             g_pSetupFilepath,
+            g_pCustomConfigFilepath,//add by wzb for customconfig 20190321
 #ifdef _AUTO_GEN_FEATURE_
             g_pAutoGenSetupFilepath,
 #endif
@@ -84,6 +88,8 @@ BOOL CSNWriterApp::InitInstance()
 
     CSNWriterDlg dlg;
     m_pMainWnd = &dlg;
+
+	//end
     int nResponse = dlg.DoModal();
     if (nResponse == IDOK)
     {

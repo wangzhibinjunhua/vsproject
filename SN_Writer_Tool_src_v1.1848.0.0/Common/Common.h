@@ -285,6 +285,15 @@ typedef struct {
     bool SerialNumFromIMEI;
     bool ImeiLockHidden;
     bool bEnableLockOtp;
+	//add by wzb for custom config 20190321
+	char strDBMachine[MAX_PATH];
+	char strDBSQLUser[MAX_PATH];
+	char strDBSQLPassword[MAX_PATH];
+	char strDBPort[MAX_PATH];
+	char strDBName[MAX_PATH];
+	char strSoftwarePN[MAX_PATH];
+
+	//end
 } META_Common_struct;
 
 typedef struct
@@ -420,6 +429,8 @@ typedef struct
 extern AutoGenData_struct  g_AutoGenData;
 extern char g_pAutoGenSetupFilepath[MAX_PATH];
 RW_SetupFile_Status GetAutoGenParaFromSetupFile();
+RW_SetupFile_Status GetCustomConfigParaFromSetupFile();//add by wzb 20190321
+
 RW_SetupFile_Status SaveAutoGenParaToSetupFile();
 RW_SetupFile_Status UpdateAutoGenParaToSetupFile();
 #endif //#ifdef _AUTO_GEN_FEATURE_
@@ -453,6 +464,7 @@ RW_SetupFile_Status SaveItemParaToSetupFile(const char *strFilePath, LPCTSTR lpK
 //extern DWORD g_MainDlgHandle;
 extern META_Common_struct g_sMetaComm;
 extern char g_pSetupFilepath[MAX_PATH];
+extern char g_pCustomConfigFilepath[MAX_PATH];//add by wzb 20190321
 extern char g_pPasswdFilepath[MAX_PATH];
 extern int  g_iMetaStopFlag;
 extern Login_Identify_e g_LoginIdentify;

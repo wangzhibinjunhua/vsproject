@@ -342,6 +342,26 @@ void CSNWriterDlg::ParameterInit()
 
     SetUIItem();
 
+	//add by wzb for test config ini
+#if 1
+	CString strTempTestInfo;
+	strTempTestInfo.Format(
+		_T("DB_Machine, %s\r\n")
+		_T("DB_SQLUser, %s\r\n")
+		_T("DB_SQLPassword, %s\r\n")
+		_T("DB_Port, %s\r\n")
+		_T("DB_Name, %s\r\n")
+		_T("SoftwarePN, %s\r\n"),
+		g_sMetaComm.strDBMachine,
+		g_sMetaComm.strDBSQLUser,
+		g_sMetaComm.strDBSQLPassword,
+		g_sMetaComm.strDBPort,
+		g_sMetaComm.strDBName,
+		g_sMetaComm.strSoftwarePN);
+	::AfxMessageBox((const TCHAR *)strTempTestInfo, MB_ICONERROR);
+#endif
+	//end
+
 }
 void CSNWriterDlg::EnableStartBTN(bool bEnable)
 {

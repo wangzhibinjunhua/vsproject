@@ -160,6 +160,19 @@ IniData_struct g_IniData[] =
     {"Enable Lock OTP", (bool*)&g_sMetaComm.bEnableLockOtp, INI_BOOLEAN},
 };
 
+//add by wzb for customconfig ini 20190321
+char g_pCustomConfigFilepath[MAX_PATH];
+IniData_struct g_CustomConfigIniData[] =
+{
+	{"DB_Machine", (char*)g_sMetaComm.strDBMachine, INI_STRING},
+	{"DB_SQLUser", (char*)g_sMetaComm.strDBSQLUser, INI_STRING},
+	{"DB_SQLPassword", (char*)g_sMetaComm.strDBSQLPassword, INI_STRING},
+	{"DB_Port", (char*)g_sMetaComm.strDBPort, INI_STRING},
+	{"DB_Name", (char*)g_sMetaComm.strDBName, INI_STRING},
+	{"SoftwarePN", (char*)g_sMetaComm.strSoftwarePN, INI_STRING},
+};
+//end
+
 bool ResultToString_Win(DWORD ED, char* lpBuffer, DWORD nSize)
 {
     DWORD ret_dw = 0u;
@@ -460,12 +473,20 @@ int GetSNSetupFilePath()
     memset(&g_pSetupFilepath, 0, MAX_PATH);
     memset(&g_pAutoGenSetupFilepath, 0, MAX_PATH);
     memset(&g_pPasswdFilepath, 0, MAX_PATH);
+	//add by wzb for customconfig 20190321
+	memset(&g_pCustomConfigFilepath, 0, MAX_PATH);
+	//end
 
     if(::GetModuleFileName(NULL, FolderPath, MAX_PATH) > 0)
         ::PathRemoveFileSpec(FolderPath);
     else
         ::GetCurrentDirectory(MAX_PATH, FolderPath);
 
+	//add by wzb for customconfig 20190321
+	sprintf_s(g_pCustomConfigFilepath, "%s\\%s", FolderPath, "CustomConfig.ini");
+    if (strlen(g_pCustomConfigFilepath) == 0 || ::PathFileExists(g_pCustomConfigFilepath) == FALSE)
+        return ERROR;
+	//end
     sprintf_s(g_pSetupFilepath, "%s\\%s", FolderPath, "SN_Setup.ini");
     if (strlen(g_pSetupFilepath) == 0 || ::PathFileExists(g_pSetupFilepath) == FALSE)
         return ERROR;
@@ -507,6 +528,17 @@ RW_SetupFile_Status SaveItemParaToSetupFile(const char *strFilePath, LPCTSTR lpK
     return writeIniStatus;
 }
 
+//add by wzb for customconfig 20190321
+RW_SetupFile_Status GetCustomConfigParaFromSetupFile()
+{
+    RW_SetupFile_Status readIniStatus;
+    int genSize = (sizeof(g_CustomConfigIniData) / sizeof(IniData_struct));
+    readIniStatus = ReadIniData(g_pCustomConfigFilepath, g_CustomConfigIniData, genSize);
+    return readIniStatus;
+}
+
+//end
+
 RW_SetupFile_Status GetParaFromSetupFile()
 {
     RW_SetupFile_Status readIniStatus;
@@ -518,6 +550,15 @@ RW_SetupFile_Status GetParaFromSetupFile()
         return readIniStatus;
     }
 #endif
+
+//add by wzb for customconfig 20190321
+	readIniStatus = GetCustomConfigParaFromSetupFile();
+    if (readIniStatus != INI_RW_SUCCESS)
+    {
+        return readIniStatus;
+    }
+
+//end
 
     int size = (sizeof(g_IniData) / sizeof(IniData_struct));
 
@@ -576,7 +617,6 @@ RW_SetupFile_Status SaveParaToSetupFile()
         return writeIniStatus;
     }
 #endif
-
 
     int size = (sizeof(g_IniData) / sizeof(IniData_struct));
 
